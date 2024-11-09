@@ -60,8 +60,8 @@ ctseff <- function(y, a, x, bw.seq, n.pts = 100, a.rng = c(min(a), max(a)),
   # note: other methods could be used here instead
   pimod <- SuperLearner(Y = a, X = data.frame(x), SL.library = sl.lib, newX = x.new)
   pimod.vals <- pimod$SL.predict
-  pi2mod <- SuperLearner(Y = (a - pimod.vals[1:n])^2, X = x, SL.library = sl.lib, newX = x.new)
-  pi2mod.vals <- pi2mod$SL.predict
+  logpi2mod <- SuperLearner(Y = log((a - pimod.vals[1:n])^2), X = x, SL.library = sl.lib, newX = x.new)
+  pi2mod.vals <- exp(logpi2mod$SL.predict)
   mumod <- SuperLearner(Y = y, X = cbind(x, a), SL.library = sl.lib, newX = xa.new)
   muhat.vals <- mumod$SL.predict
 
