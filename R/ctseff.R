@@ -49,10 +49,11 @@ ctseff <- function(y, a, x, bw.seq, n.pts = 100, a.rng = c(min(a), max(a)),
   a.max <- a.rng[2]
   a.vals <- seq(a.min, a.max, length.out = n.pts)
   xa.new <- rbind(cbind(x, a), cbind(x[rep(1:n, length(a.vals)), ], a = rep(a.vals, rep(n, length(a.vals)))))
+  colnames(xa.new) <- c(colnames(x), "a")
   x.new <- xa.new[, -dim(xa.new)[2]]
   x <- data.frame(x)
   x.new <- data.frame(x.new)
-  colnames(x) <- colnames(x.new)
+  colnames(x.new) <- colnames(x)
   xa.new <- data.frame(xa.new)
 
   # estimate nuisance functions via super learner
