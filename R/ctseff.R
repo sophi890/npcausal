@@ -84,7 +84,7 @@ ctseff <- function(y, a, x, bw.seq, n.pts = 100, a.rng = c(min(a), max(a)),
   pseudo.out <- (y - muhat) / (pihat / varpihat) + mhat
 
   # leave-one-out cross-validation to select bandwidth
-  w.fn <- function(bw) {
+  w.fn <- function(bw, a.vals) {
     w.avals <- NULL
     for (a.val in a.vals) {
       a.std <- (a - a.val) / bw
@@ -95,7 +95,8 @@ ctseff <- function(y, a, x, bw.seq, n.pts = 100, a.rng = c(min(a), max(a)),
     return(w.avals / n)
   }
   hatvals <- function(bw) {
-    approx(a.vals, w.fn(bw), xout = a)$y
+    asubset <- seq(min(a), max(a), length.out = 100)
+    approx(asubset, w.fn(bw, a.vals = asubset), xout = a)$y
   }
   cts.eff.fn <- function(out, bw) {
     approx(locpoly(a, out, bandwidth = bw), xout = a)$y
